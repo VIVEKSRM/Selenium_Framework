@@ -10,6 +10,7 @@ import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
@@ -17,6 +18,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
@@ -35,9 +37,9 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 */
 
 
-public class TestBase {
+public class TestBase extends RemoteWebDriver{
 	
-	protected static WebDriver driver;
+	protected static RemoteWebDriver driver;
 	public static Properties envConfig;
 	WebDriverWait wait;
 	
@@ -59,10 +61,14 @@ public class TestBase {
 			driver = new FirefoxDriver();
          }
 		else if (BROWSER.equals("Chrome")) {
-			WebDriverManager.chromedriver().setup();
-			ChromeOptions options = new ChromeOptions();
-			options.addArguments("--disable-notifications");
-			driver = new ChromeDriver(options);             
+			WebDriverManager.chromedriver().browserVersion("125.0.6422.77").setup();
+			//WebDriverManager.chromedriver().setup();
+
+		//	ChromeOptions options = new ChromeOptions();
+			//options.addArguments("--disable-notifications");
+		//	options.addArguments("--start-maximized");
+		//	driver = new RemoteWebDriver((Capabilities) options);
+			driver = new RemoteWebDriver();
          }
 		 else if (BROWSER.equals("IE")) {
 			 WebDriverManager.iedriver().setup();
